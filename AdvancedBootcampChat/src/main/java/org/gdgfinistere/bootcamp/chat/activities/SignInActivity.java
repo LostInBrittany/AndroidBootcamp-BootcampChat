@@ -1,4 +1,4 @@
-package org.gdgfinistere.bootcamp.chat;
+package org.gdgfinistere.bootcamp.chat.activities;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class LoginActivity extends Activity {
+
+import org.gdgfinistere.bootcamp.chat.R;
+
+public class SignInActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_in);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -30,7 +33,7 @@ public class LoginActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
+        getMenuInflater().inflate(R.menu.sign_in, menu);
         return true;
     }
 
@@ -57,7 +60,7 @@ public class LoginActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_sign_in, container, false);
             return rootView;
         }
     }

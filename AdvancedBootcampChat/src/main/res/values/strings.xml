@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Advanced Bootcamp Chat</string>
+    <string name="app_name">Bootcamp Chat</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="login_welcome">Bienvenu au</string>
+    <string name="login_signup">Créez un compte</string>
+    <string name="login_signin">Connectez-vous</string>
+    <string name="login_user">Votre pseudo</string>
+    <string name="login_password">Votre mot de passe</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>

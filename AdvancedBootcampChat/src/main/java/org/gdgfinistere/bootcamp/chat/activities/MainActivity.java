@@ -26,6 +26,8 @@ import org.gdgfinistere.bootcamp.chat.model.Tweet;
 import org.gdgfinistere.bootcamp.chat.tools.AsyncConnection;
 import org.gdgfinistere.bootcamp.chat.tools.JsonParser;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -244,14 +246,20 @@ public class MainActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
 
+            String message;
+            try {
+                message = URLEncoder.encode(tweetBox.getText().toString(), "UTF-8");
+            }catch (UnsupportedEncodingException e) {
+                message = URLEncoder.encode(tweetBox.getText().toString());
+            }
 
             //Quick and dirty
-            String url = MESSAGE_URL+"?username="+SessionObject.getUsername()+"&token="+SessionObject.getToken()+"&content="+tweetBox.getText().toString();
-
+            String url = MESSAGE_URL+"?username="+SessionObject.getUsername()+"&token="+SessionObject.getToken()+"&content="+ message;
             Log.d("MainActivity - SendMessage Async Task", "Begin SignUp HTTP call "+url);
             String result = connect(url,MESSAGE_SEND_METHOD, null);
             Log.d("MainActivity - SendMessage Async Task", "End SignUp HTTP call, result: "+result);
             return result;
+
 
         }
 

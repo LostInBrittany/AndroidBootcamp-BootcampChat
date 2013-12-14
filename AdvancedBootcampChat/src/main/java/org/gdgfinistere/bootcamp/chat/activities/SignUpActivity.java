@@ -1,20 +1,44 @@
 package org.gdgfinistere.bootcamp.chat.activities;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.gdgfinistere.bootcamp.chat.R;
+import org.gdgfinistere.bootcamp.chat.tools.AsyncConnection;
+import org.gdgfinistere.bootcamp.chat.tools.JsonParser;
 
 public class SignUpActivity extends Activity {
+
+    /**
+     * JSON Services for Bootcamp Chat
+     *
+     * Signup
+     * PUT /AndroidBootcampServer/rest/user?username=horacio&password=toto
+     *
+     * SignIn
+     * POST /AndroidBootcampServer/rest/user?username=horacio&password=toto
+     *
+     * Send message
+     * POST /AndroidBootcampServer/rest/message?username=horacio&token=ba7db59b5c2a7173c38bc1cc601f1f8c&content=Hello%20world!
+     *
+     * get msg without token -> error
+     * GET /AndroidBootcampServer/rest/message
+     */
+    public static final String SIGNUP_URL = "http://lostinbrittany.org/java/AndroidBootcampServer/rest/user";
+    public static final String SIGNUP_METHOD = "PUT";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +52,18 @@ public class SignUpActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Button signUpBtn = (Button)findViewById(R.id.signup_button);
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SignUpTask().execute();
+
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,4 +101,35 @@ public class SignUpActivity extends Activity {
         }
     }
 
+
+    private class SignUpTask extends AsyncConnection {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String username = ((TextView)findViewById(R.id.signup_name)).getText().toString();
+            String password = ((TextView)findViewById(R.id.signup_pwd)).getText().toString();
+
+            //Quick and dirty
+            String url = SIGNUP_URL+"?username="+username+"&password="+password;
+
+            Log.d("SignUpActivity", "Begin SignUp HTTP call"+url);
+            String result = connect(url,SIGNUP_METHOD, null);
+            Log.d("SignUpActivity", "End SignUp HTTP call, result: "+result);
+            return result;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (null != JsonParser.isError(result)) {
+                Toast.makeText(SignUpActivity.this.getBaseContext(),
+                                R.string.signup_error, Toast.LENGTH_LONG).show();
+
+            } else {
+                Intent signInIntent = new Intent(SignUpActivity.this, SignInActivity.class);
+                SignUpActivity.this.startActivity(signInIntent);
+            }
+        }
+    }
 }

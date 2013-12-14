@@ -33,6 +33,10 @@
             android:name="org.gdgfinistere.bootcamp.chat.activities.SignInActivity"
             android:label="@string/title_activity_sign_in" >
         </activity>
+        <activity
+            android:name="org.gdgfinistere.bootcamp.chat.activities.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
     </application>
 
 </manifest>
